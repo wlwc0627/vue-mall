@@ -8,6 +8,7 @@ import NewsList from '../components/news/NewsList'
 import NewsInfo from '../components/news/NewsInfo'
 import PhotoList from '@/components/photo/PhotoList'
 import GoodList from '@/components/goods/GoodList'
+import GoodsInfo from '@/components/goods/GoodsInfo'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({
       path: '/home/goodlist',
       name: 'GoodList',
       component: GoodList
+    },
+    {
+      path: '/home/goodinfo/:id',
+      name: 'GoodsInfo',
+      component: GoodsInfo
     }
   ],
   linkActiveClass: 'mui-active'

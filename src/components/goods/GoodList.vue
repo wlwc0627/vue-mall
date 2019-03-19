@@ -1,6 +1,6 @@
 <template>
   <div class="goods-list">
-    <div class="goods-item" v-for='(item,index) in goodsData' :key='index'>
+    <router-link tag="div" :to="{name:'GoodsInfo',params:{ id: item.id}}" class="goods-item" v-for='(item,index) in goodsData' :key='index'>
       <img :src="item.img" alt="">
       <p class="title">{{ item.title }}</p>
       <div class="info">
@@ -13,7 +13,8 @@
           <span class="hot">{{ item.state }}</span>
         </p>
       </div>
-    </div>
+    </router-link>
+    <mt-button type="danger" size='large' @click='getMoreGoods'>加载更多</mt-button>
   </div>
 </template>
 
@@ -25,10 +26,19 @@ export default {
       goodsData: []
     }
   },
-  mounted () {
-    this.$axios.get('api/goods.json').then(res => {
-      this.goodsData = res.data.data
-    })
+  created () {
+    this.getGoods()
+  },
+  methods: {
+    getGoods () {
+      this.$axios.get('api/goods.json').then(res => {
+        this.goodsData = this.goodsData.concat(res.data.data)
+      })
+    },
+    getMoreGoods () {
+      this.getGoods()
+      console.log(this.goodsData)
+    }
   }
 }
 </script>
