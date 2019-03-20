@@ -1,5 +1,12 @@
 <template>
   <div class="info-container">
+    <transition
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter"
+    >
+      <div v-show='ballFlag' ref='ball' class="ball"></div>
+    </transition>
     <div class="mui-card">
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
@@ -16,14 +23,15 @@
             销售价：<span class="now_price">{{ goodsDetail.newprice }}</span>
           </p>
           <p class="number">
-            购买数量:&nbsp;&nbsp;<NumberBox />
+            购买数量:&nbsp;&nbsp;
+            <NumberBox @getNum='getInputValue' :remain="goodsDetail.remain" />
           </p>
         </div>
       </div>
       <div class="mui-card-footer">
         <p>
           <mt-button type="primary" size='small'>立即购买</mt-button>&nbsp;&nbsp;&nbsp;&nbsp;
-          <mt-button type='danger' size='small'>加入购物车</mt-button>
+          <mt-button type='danger' size='small' @click='addToShopCar'>加入购物车</mt-button>
         </p>
       </div>
     </div>
@@ -57,10 +65,12 @@ export default {
   name: 'GoodsInfo',
   data () {
     return {
+      ballFlag: false,
       id: this.$route.params.id,
       lunbotuData: [],
       lunbotu: [],
-      goodsDetail: []
+      goodsDetail: [],
+      inputNum: 1
     }
   },
   components: {
@@ -93,6 +103,28 @@ export default {
     },
     goComment (id) {
       this.$router.push({name: 'CommentPage', params: { id }})
+    },
+    addToShopCar () {
+      this.ballFlag = !this.ballFlag
+    },
+    beforeEnter (el) {
+      el.style.transform = 'translate(0, 0)'
+    },
+    enter (el, done) {
+      let elOH = el.offsetWidth
+      const ballPosition = this.$refs.ball.getBoundingClientRect()
+      const shopcarPosition = document.getElementById('shopcar').getBoundingClientRect()
+      const xDist = shopcarPosition.left - ballPosition.left
+      const yDist = shopcarPosition.top - ballPosition.top
+      el.style.transform = `translate(${xDist}px, ${yDist}px)`
+      el.style.transition = 'all 1s cubic-bezier(.17,.67,.83,.67)'
+      el.addEventListener('transitionend', done)
+    },
+    afterEnter (el) {
+      this.ballFlag = !this.ballFlag
+    },
+    getInputValue (count) {
+      this.inputNum = count
     }
   }
 }
@@ -102,6 +134,15 @@ export default {
 .info-container
   background-color: #eee
   overflow: hidden
+  .ball
+    position absolute
+    width: 16px
+    height: 16px
+    border-radius: 50%
+    background-color: red
+    left: 180px
+    top: 580px
+    z-index: 19
 .mui-card-content-inner
   font-size: 16px
   .price

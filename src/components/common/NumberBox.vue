@@ -1,7 +1,7 @@
 <template>
   <div class="number-container">
     <button class='number-reduce' @click='reduceNumber'>一</button>
-    <input type="text" value='1' ref='inputValue' class='number-value' />
+    <input type="text" value='1' ref='numberbox' class='number-value' @input='countChanged'/>
     <button class="number-add" @click='addNumber'>＋</button>
   </div>
 </template>
@@ -10,6 +10,12 @@
 import { Toast } from 'mint-ui'
 export default {
   name: 'NumberBox',
+  props: {
+    remain: {
+      type: [Number, String],
+      default: null
+    }
+  },
   data () {
     return {
       finalValue: ''
@@ -17,19 +23,28 @@ export default {
   },
   methods: {
     reduceNumber () {
-      if (this.$refs.inputValue.value > 1) {
-        this.finalValue = parseInt(this.$refs.inputValue.value) - 1
-        this.$refs.inputValue.value = this.finalValue
+      if (this.$refs.numberbox.value > 1) {
+        this.finalValue = parseInt(this.$refs.numberbox.value) - 1
+        this.$refs.numberbox.value = this.finalValue
+        this.$emit('getNum', this.$refs.numberbox.value)
       } else {
         Toast('商品数量已达最小值')
       }
     },
     addNumber () {
-      if (this.$refs.inputValue.value < 10) {
-        this.finalValue = parseInt(this.$refs.inputValue.value) + 1
-        this.$refs.inputValue.value = this.finalValue
+      if (this.$refs.numberbox.value < parseInt(this.remain)) {
+        this.finalValue = parseInt(this.$refs.numberbox.value) + 1
+        this.$refs.numberbox.value = this.finalValue
+        this.$emit('getNum', this.$refs.numberbox.value)
       } else {
-        Toast('该商品限购10件')
+        Toast('库存不足')
+      }
+    },
+    countChanged () {
+      if (this.$refs.numberbox.value < parseInt(this.remain)+1) {
+        this.$emit('getNum', this.$refs.numberbox.value)
+      } else {
+        Toast('库存不足')
       }
     }
   }

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { Toast } from 'mint-ui'
 export default {
   name: 'CommentPage',
   props: {
@@ -32,7 +33,12 @@ export default {
   },
   methods: {
     getValue () {
-      this.commentList.unshift(this.$refs.textValue.value)
+      if (this.$refs.textValue.value) {
+        this.commentList.unshift(this.$refs.textValue.value)
+        this.$refs.textValue.value = ''
+      } else {
+        Toast('评论不得为空')
+      }
     }
   }
 }
