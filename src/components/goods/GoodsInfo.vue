@@ -8,12 +8,12 @@
       </div>
     </div>
     <div class="mui-card">
-      <div class="mui-card-header">商品价格</div>
+      <div class="mui-card-header">{{ goodsDetail.title }}</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
           <p class="price">
-            市场价：<del>￥2399</del>&nbsp;&nbsp;&nbsp;&nbsp;
-            销售价：<span class="now_price">￥2199</span>
+            <span v-show='goodsDetail.oldprice'>市场价：</span><del v-show='goodsDetail.oldprice'>{{ goodsDetail.oldprice }}&nbsp;&nbsp;&nbsp;&nbsp;</del>
+            销售价：<span class="now_price">{{ goodsDetail.newprice }}</span>
           </p>
           <p class="number">
             购买数量:&nbsp;&nbsp;<NumberBox />
@@ -31,14 +31,20 @@
       <div class="mui-card-header">商品参数</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner goods-detail">
-          <p>商品货号:</p>
-          <p>库存情况:</p>
-          <p>上架时间:</p>
+          <p>
+            商品货号: {{ goodsDetail.goodsNum }}
+          </p>
+          <p>
+            库存情况: 剩余{{ goodsDetail.remain }}件
+          </p>
+          <p>
+            上架时间: {{ goodsDetail.year }}年{{ goodsDetail.month }}月
+          </p>
         </div>
       </div>
       <div class="mui-card-footer">
-        <mt-button type='primary' size='large' plain>图文介绍</mt-button>
-        <mt-button type='danger' size='large' plain>商品评价</mt-button>
+        <mt-button type='primary' size='large' plain @click='goDesc(id)'>图文介绍</mt-button>
+        <mt-button type='danger' size='large' plain @click='goComment(id)'>商品评价</mt-button>
       </div>
     </div>
   </div>
@@ -79,9 +85,14 @@ export default {
     },
     getGoodsDetail () {
       this.$axios.get('/api/goodsdetail.json').then(res => {
-        this.goodsDetail = res.data.data
-        console.log(this.goodsDetail)
+        this.goodsDetail = res.data.data[parseInt(this.id)]
       })
+    },
+    goDesc (id) {
+      this.$router.push({name: 'DetailPage', params: { id }})
+    },
+    goComment (id) {
+      this.$router.push({name: 'CommentPage', params: { id }})
     }
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <mt-header fixed title="VUE商城"></mt-header>
+    <div v-show='isShow' class="back-icon" @click='backpage'>＜</div>
     <transition>
       <router-view/>
     </transition>
@@ -29,7 +30,26 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  watch: {
+    $route (now, old) {
+      if (now.path === '/home') {
+        this.isShow = false
+      } else {
+        this.isShow = true
+      }
+    }
+  },
+  methods: {
+    backpage () {
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 
@@ -38,6 +58,15 @@ export default {
     padding-top: 40px
     padding-bottom: 50px
     overflow-x: hidden
+    .back-icon
+      position: fixed
+      width: 40px
+      height: 40px
+      top: 0
+      left: 0
+      z-index: 9
+      font-size: 38px
+      color: #fff
   .v-enter
     opacity: 0
     transform: translateX(100%)

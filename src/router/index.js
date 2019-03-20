@@ -9,6 +9,8 @@ import NewsInfo from '../components/news/NewsInfo'
 import PhotoList from '@/components/photo/PhotoList'
 import GoodList from '@/components/goods/GoodList'
 import GoodsInfo from '@/components/goods/GoodsInfo'
+import DetailPage from '@/components/goods/DetailPage'
+import CommentPage from '@/components/goods/CommentPage'
 
 Vue.use(Router)
 
@@ -63,6 +65,16 @@ export default new Router({
       path: '/home/goodinfo/:id',
       name: 'GoodsInfo',
       component: GoodsInfo
+    },
+    {
+      path: '/home/detailpage/:id',
+      name: 'DetailPage',
+      component: DetailPage
+    },
+    {
+      path: '/home/commentpage/:id',
+      name: 'CommentPage',
+      component: CommentPage
     }
   ],
   linkActiveClass: 'mui-active'

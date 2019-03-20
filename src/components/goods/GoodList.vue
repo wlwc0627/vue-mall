@@ -37,7 +37,6 @@ export default {
     },
     getMoreGoods () {
       this.getGoods()
-      console.log(this.goodsData)
     }
   }
 }

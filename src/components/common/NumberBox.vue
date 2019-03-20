@@ -20,7 +20,6 @@ export default {
       if (this.$refs.inputValue.value > 1) {
         this.finalValue = parseInt(this.$refs.inputValue.value) - 1
         this.$refs.inputValue.value = this.finalValue
-        console.log(this.finalValue)
       } else {
         Toast('商品数量已达最小值')
       }
@@ -29,7 +28,6 @@ export default {
       if (this.$refs.inputValue.value < 10) {
         this.finalValue = parseInt(this.$refs.inputValue.value) + 1
         this.$refs.inputValue.value = this.finalValue
-        console.log(this.finalValue)
       } else {
         Toast('该商品限购10件')
       }
