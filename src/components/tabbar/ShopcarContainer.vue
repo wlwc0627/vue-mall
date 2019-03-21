@@ -25,12 +25,8 @@
           <div class="left">
             <p class="header">总计(不含运费):</p>
             <p class="content">
-              已勾选商品 
-              <span>{{ $store.getters.getGoodsCountAndPrice.count }}</span>
-               件，
-              总价 
-              <span>￥{{ $store.getters.getGoodsCountAndPrice.price }}</span>
-               元
+              已选商品 <span>{{ $store.getters.getGoodsCountAndPrice.count }}</span> 件， 
+              共 <span>￥{{ $store.getters.getGoodsCountAndPrice.price }}</span> 元 
             </p>
           </div>
           <mt-button type='danger'>去结算</mt-button>

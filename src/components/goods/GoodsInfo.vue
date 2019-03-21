@@ -30,7 +30,7 @@
       </div>
       <div class="mui-card-footer">
         <p>
-          <mt-button type="primary" size='small'>立即购买</mt-button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <mt-button type="primary" size='small' @click='buyGoods(inputNum, goodsDetail.newprice)'>立即购买</mt-button>&nbsp;&nbsp;&nbsp;&nbsp;
           <mt-button type='danger' size='small' @click='addToShopCar'>加入购物车</mt-button>
         </p>
       </div>
@@ -132,6 +132,10 @@ export default {
     },
     getInputValue (count) {
       this.inputNum = count
+    },
+    buyGoods (id, price) {
+      console.log(id + '---' + price)
+      this.$router.push({name: 'BuyThings', param: { id }})
     }
   }
 }

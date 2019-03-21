@@ -11,6 +11,7 @@ import GoodList from '@/components/goods/GoodList'
 import GoodsInfo from '@/components/goods/GoodsInfo'
 import DetailPage from '@/components/goods/DetailPage'
 import CommentPage from '@/components/goods/CommentPage'
+import BuyThings from '@/components/goods/BuyThings'
 
 Vue.use(Router)
 
@@ -75,6 +76,11 @@ export default new Router({
       path: '/home/commentpage/:id',
       name: 'CommentPage',
       component: CommentPage
+    },
+    {
+      path: '/home/buythings/:id',
+      name: 'BuyThings',
+      component: BuyThings
     }
   ],
   linkActiveClass: 'mui-active'
