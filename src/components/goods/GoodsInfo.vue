@@ -106,18 +106,25 @@ export default {
     },
     addToShopCar () {
       this.ballFlag = !this.ballFlag
+      let goodsinfo = {
+        id: this.id,
+        count: this.inputNum,
+        price: this.goodsDetail.newprice,
+        selected: true
+      }
+      this.$store.commit('addToCar', goodsinfo)
     },
     beforeEnter (el) {
       el.style.transform = 'translate(0, 0)'
     },
     enter (el, done) {
-      let elOH = el.offsetWidth
+      el.offsetWidth
       const ballPosition = this.$refs.ball.getBoundingClientRect()
       const shopcarPosition = document.getElementById('shopcar').getBoundingClientRect()
       const xDist = shopcarPosition.left - ballPosition.left
       const yDist = shopcarPosition.top - ballPosition.top
       el.style.transform = `translate(${xDist}px, ${yDist}px)`
-      el.style.transition = 'all 1s cubic-bezier(.17,.67,.83,.67)'
+      el.style.transition = 'all .5s cubic-bezier(.17,.67,.83,.67)'
       el.addEventListener('transitionend', done)
     },
     afterEnter (el) {

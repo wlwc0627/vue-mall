@@ -1,7 +1,10 @@
 <template>
   <div id="app">
-    <mt-header fixed title="VUE商城"></mt-header>
-    <div v-show='isShow' class="back-icon" @click='backpage'>＜</div>
+    <mt-header fixed title="VUE商城">
+      <span slot="left" v-show='isShow' @click='goBack'>
+        <mt-button icon="back">返回</mt-button>
+      </span>
+    </mt-header>
     <transition>
       <router-view/>
     </transition>
@@ -16,7 +19,7 @@
       </router-link>
       <router-link class="mui-tab-item" to="/shopcar">
         <span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge" id="shopcar">0</span>
+          <span class="mui-badge" id="shopcar">{{ $store.getters.getAllCount }}</span>
         </span>
         <span class="mui-tab-label">购物车</span>
       </router-link>
@@ -37,16 +40,19 @@ export default {
     }
   },
   watch: {
-    $route (now, old) {
-      if (now.path === '/home') {
+    '$route.path': function (nowVal) {
+      if (nowVal === '/home') {
         this.isShow = false
       } else {
         this.isShow = true
       }
     }
   },
+  created () {
+    this.isShow = this.$route.path === '/home' ? false : true
+  },
   methods: {
-    backpage () {
+    goBack () {
       this.$router.go(-1)
     }
   }
