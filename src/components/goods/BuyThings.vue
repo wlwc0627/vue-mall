@@ -3,11 +3,11 @@
     <div class="mui-card">
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <img src="http://imgservice.suning.cn/uimg1/b2c/image/aRCbov_5PyZRyIQFZ2FBdg.jpg_800w_800h_4e" alt="">
+          <img :src="goodsData.img">
           <div>
-            <p class="title">小米9 6GB+128GB 深空灰 移动联通电信全网通4G手机</p>
-            <p class="price">￥2999×1</p>
-            <p class="count">订单合计:￥2999</p>
+            <p class="title">{{ goodsData.title }}</p>
+            <p class="price">￥{{ goodsData.newprice }}×{{ count }}</p>
+            <p class="count">订单合计:￥{{ totalPrice }}</p>
           </div>
         </div>
       </div>
@@ -15,8 +15,8 @@
     <div class="mui-card">
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <mt-button type='primary' size='large' plain>支付</mt-button>
-          <mt-button type='danger' size='large' plain>取消</mt-button>
+          <mt-button type='primary' size='large' plain @click='payment'>支付</mt-button>
+          <mt-button type='danger' size='large' plain @click='cancel'>取消</mt-button>
         </div>
       </div>
     </div>
@@ -24,8 +24,39 @@
 </template>
 
 <script>
+import { Toast } from 'mint-ui'
 export default {
-  name: 'BuyThings'
+  name: 'BuyThings',
+  data () {
+    return {
+      id: this.$store.state.paymoney[0].id,
+      count: this.$store.state.paymoney[0].count,
+      goodsData: [],
+      totalPrice: ''
+    }
+  },
+  mounted () {
+    this.loadData()
+  },
+  methods: {
+    loadData () {
+      this.$axios.get('/api/shopcarlist.json').then(res => {
+        for (let i=0; i< res.data.data.length; i++) {
+          if (i === parseInt(this.id)) {
+            this.goodsData = res.data.data[i]
+          }
+        }
+        this.totalPrice = parseInt(this.goodsData.newprice) * parseInt(this.count)
+      })
+    },
+    payment () {
+      Toast('支付成功！')
+    },
+    cancel () {
+      this.$router.go(-1)
+      this.$store.commit('cancelPayment')
+    }
+  }
 }
 </script>
 

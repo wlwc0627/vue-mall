@@ -5,10 +5,11 @@ import Vuex from 'vuex'
 import './lib/mui/css/mui.min.css'
 import './lib/mui/css/icons-extra.css'
 import './lib/mui/fonts/mui-icons-extra.ttf'
-import { Header, Swipe, SwipeItem, Button, Switch } from 'mint-ui'
+import { Header, Swipe, SwipeItem, Button, Switch, Field } from 'mint-ui'
 import Axios from 'axios'
 import '@/assets/style/reset.css'
 
+Vue.component(Field.name, Field)
 Vue.component(Switch.name, Switch)
 Vue.component(Header.name, Header)
 Vue.config.productionTip = false
@@ -22,7 +23,8 @@ let car = JSON.parse(localStorage.getItem('car') || '[]')
 
 let store = new Vuex.Store({
   state: {
-    car: car
+    car: car,
+    paymoney: []
   },
   mutations: {
     addToCar (state, goodsinfo) {
@@ -64,6 +66,12 @@ let store = new Vuex.Store({
         }
       })
       localStorage.setItem('car', JSON.stringify(state.car))
+    },
+    payFinalMoney (state, info) {
+      state.paymoney.push(info)
+    },
+    cancelPayment (state) {
+      state.paymoney = []
     }
   },
   getters: {

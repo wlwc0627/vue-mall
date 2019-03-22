@@ -12,6 +12,8 @@ import GoodsInfo from '@/components/goods/GoodsInfo'
 import DetailPage from '@/components/goods/DetailPage'
 import CommentPage from '@/components/goods/CommentPage'
 import BuyThings from '@/components/goods/BuyThings'
+import Login from '@/components/member/Login'
+import Register from '@/components/member/Register'
 
 Vue.use(Router)
 
@@ -81,6 +83,16 @@ export default new Router({
       path: '/home/buythings/:id',
       name: 'BuyThings',
       component: BuyThings
+    },
+    {
+      path: '/member/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/member/register',
+      name: 'Register',
+      component: Register
     }
   ],
   linkActiveClass: 'mui-active'
